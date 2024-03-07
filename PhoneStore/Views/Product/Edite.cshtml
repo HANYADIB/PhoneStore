@@ -1,0 +1,67 @@
+﻿@model Product
+<form method="post" asp-action="save2" asp-controller="product" asp-route-Id="@Model.Product_Id" enctype="multipart/form-data">
+    @*asp-route-id="@Model.Id"*@
+    <div asp-validation-summary="All" class="text-danger"></div>
+    @Html.HiddenFor(e => e.Product_Id)
+    <div>
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+
+    </div>
+    <div>
+        <label asp-for="Price"></label>
+        <input asp-for="Price" class="form-control" />
+        <span asp-validation-for="Price" class="text-danger"></span>
+    </div>
+    <div>
+        <label asp-for="Description"></label>
+        <input asp-for="Description" class="form-control" />
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+    <div>
+        <label>Catagory</label>
+        <select asp-for="Category_Id" class="form-select">
+            @foreach (Category item in ViewBag.cat)
+            {
+
+                <option value="@item.Cat_Id">@item.Name</option>
+
+            }
+        </select>
+        <SPAN asp-validation-for="Category_Id"></SPAN>
+    </div>
+    <div>
+        <label>Supplier</label>
+        <select asp-for="Supplier_Id" class="form-select">
+            @foreach (Supplier item in (List<Supplier>)ViewData["sup"])
+            {
+
+                <option value="@item.Id">@item.Name</option>
+
+            }
+        </select>
+        <SPAN asp-validation-for="Supplier_Id"></SPAN>
+    </div>
+    
+    <div>
+        <input type="file" asp-for="File"  onchange="loadFile(event)" />
+        <img id="myImg" height="200" />
+    </div>
+    <input type="submit" value="update" class="btn btn-success" />
+</form>
+
+@section Scripts {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script>
+        var loadFile = function (event) {
+            var reader = new FileReader();
+            reader.onload = function () {
+                var myImg = document.getElementById('myImg');
+                myImg.src = reader.result;
+            }
+            reader.readAsDataURL(event.target.files[0]);
+        }
+    </script>
+}

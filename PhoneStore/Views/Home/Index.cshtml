@@ -1,0 +1,270 @@
+﻿@using PhoneStore.ViewModel
+@model ProductcatagoryViewModelcs
+@{
+    ViewData["Title"] = "Index";
+    Pager pager = new Pager();
+    int pageNo = 0;
+    if (ViewBag.pager != null)
+    {
+        pager = ViewBag.pager;
+        pageNo = pager.Crrentpage;
+
+    }
+}
+
+<div class="my-2">
+    <form asp-action="Index" class="row row-cols-lg-auto g-3 align-items-center">
+        <div class="col-12">
+            <label class="visually-hidden" for="genreId">Catagory</label>
+            <select class="form-select" id="genreId" name="genreId">
+                <option selected>Catagory</option>
+                @foreach (var Item in Model.categories)
+                {
+                    <option selected="@(Item.Cat_Id == Model.GenreId)" value="@Item.Cat_Id">@Item.Name</option>
+                }
+            </select>
+        </div>
+
+        <div class="col-12">
+            <label class="visually-hidden" for="sterm">Search by title</label>
+            <div class="input-group">
+                <div class="input-group-text"></div>
+                <input type="text" class="form-control" value="@Model.item" id="item" name="item" placeholder="Search by title">
+            </div>
+        </div>
+
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary">Search</button>
+            <a href="/Home/Index" class="btn btn-dark">Reset</a>
+            <a class="btn btn-primary" asp-area="" asp-controller="account" asp-action="details" >test</a>
+
+        </div>
+    </form>
+</div>
+
+<div class="w-100 mt-4 d-flex flex-wrap ">
+    @foreach (var Item in Model.Products)
+    {
+        <div class="card mx-3 mb-4" style="width: 14rem;">
+            @if (string.IsNullOrEmpty(Item.Image))
+            {
+                <img style="width:100%;height:180px" src="/images/NoImage.png" class="card-img-top" alt="...">
+
+            }
+            else
+            {
+                <a href="/product/Details/@Item.Product_Id">
+                <img style="width:100%;height:180px" src="/images/@Item.Image" class="card-img-top" alt="...">
+                </a>
+            }
+            <div class="card-body">
+                <h5 class="card-title">@Item.Name</h5>
+                <p class="card-text">
+                    <b>Category: </b>@Item.Categorys.Name <br />
+                    <b>Description: </b>@Item.Description <br />
+                    <b>Price: </b>@Item.Price
+                </p>
+                <button type="button" onclick="add(@Item.Product_Id)" class="btn btn-primary">Add to cart</button>
+            </div>
+        </div>
+    }
+</div>
+<div class="container">
+@if (pager.Totalpage > 0 )
+{
+    <ul class="pagination justify-content-end">
+            @if (pager.Crrentpage <= pager.Totalpage && pager.Crrentpage > 1)
+            {
+                <li class="page-item">
+                    <a class="page-link" asp-controller="home" asp-action="index" asp-route-GenreId="@Model.GenreId"
+                    asp-route-pg="@(pager.Crrentpage-1)">Prev</a>
+                </li>
+
+            }
+        @for (var pge = pager.Startpage; pge <= pager.Endpage; pge++)
+        {
+            <li class="page-item @(pge==pager.Crrentpage? "active": "")">
+                <a class="page-link" asp-controller="home" asp-action="index"
+                       asp-route-GenreId="@Model.GenreId"
+                       asp-route-pg="@pge" >@pge</a>
+            </li>
+
+        }
+
+    @if (pager.Crrentpage < pager.Totalpage)
+            {
+                <li class="page-item">
+                    <a class="page-link" asp-controller="home" asp-action="index" asp-route-GenreId="@Model.GenreId"
+                       asp-route-pg="@(pager.Crrentpage+1)">Next</a>
+                </li>}
+     
+
+        </ul>
+
+}
+
+</div>
+<div class="text-center text-danger m-5"> 
+    <h1>looking for New</h1>
+</div>
+<!-- carousel bootstrip -->
+<div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img style="border-radius:10px" src="~/Images/100.jfif" class="d-block w-100" alt="...">
+        </div>
+        <div class="carousel-item">
+            <img style="border-radius:10px" src="/Images/105.webp" class="d-block w-100" alt="...">
+        </div>
+        <div class="carousel-item">
+            <img style="border-radius:10px" src="/Images/101.jpg" class="d-block w-100" alt="...">
+        </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+<!-- card bootstrip -->
+<div class="container" >
+    <div class="text-center text-danger m-5">
+        <h1>Call US </h1>
+    </div>
+
+    <div class="card mb-3">
+        <div class="row g-0">
+          
+            <div class="col">
+                <div class="card-body">
+                    <h5 class="card-title">call us</h5>
+                    <!-- form card -->
+                    <form>
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="form-label">Email address</label>
+                            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Phone Number</label>
+                            <input type="password" class="form-control" id="exampleInputPassword1">
+                        </div>
+                        <div class="mb-3">
+                            <label  class="form-label">Leave Message</label>
+                            <textarea class="form-control"></textarea>
+                        </div>
+
+
+                        <button type="submit" class="btn btn-primary">Send</button>
+                    </form>
+                </div>
+            </div>
+            <div class="col">
+                <img src="~/Images/107.png" class="img-fluid rounded-start" alt="...">
+            </div>
+        </div>
+    </div>
+   
+</div>
+
+<!-- Footer bootstrip -->
+<footer class="bg-body-tertiary text-center">
+    <!-- Grid container -->
+    <div class="container p-4 pb-0">
+        <!-- Section: Social media -->
+        <section class="mb-4">
+            <!-- Facebook -->
+            <a data-mdb-ripple-init
+               class="btn text-white; btn-floating m-1"
+               style="background-color:  #55acee;"
+               href="#!"
+               role="button">
+                <i class="fab fa-facebook-f"></i>
+            </a>
+
+            <!-- Twitter -->
+            <a data-mdb-ripple-init
+               class="btn text-white btn-floating m-1"
+               style="background-color: #55acee;"
+               href="#!"
+               role="button">
+                <i class="fab fa-twitter"></i>
+            </a>
+
+            <!-- Google -->
+            <a data-mdb-ripple-init
+               class="btn text-white btn-floating m-1"
+               style="background-color: #dd4b39;"
+               href="#!"
+               role="button">
+                <i class="fab fa-google"></i>
+            </a>
+
+            <!-- Instagram -->
+            <a data-mdb-ripple-init
+               class="btn text-white btn-floating m-1"
+               style="background-color: #ac2bac;"
+               href="#!"
+               role="button">
+                <i class="fab fa-instagram"></i>
+            </a>
+
+            <!-- Linkedin -->
+            <a data-mdb-ripple-init
+               class="btn text-white btn-floating m-1"
+               style="background-color: #0082ca;"
+               href="#!"
+               role="button">
+                <i class="fab fa-linkedin-in"></i>
+            </a>
+            <!-- Github -->
+            <a data-mdb-ripple-init
+               class="btn text-white btn-floating m-1"
+               style="background-color: #333333;"
+               href="#!"
+               role="button">
+                <i class="fab fa-github"></i>
+            </a>
+        </section>
+        <!-- Section: Social media -->
+    </div>
+    <!-- Grid container -->
+    <!-- Copyright -->
+    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
+        © 2020 Copyright:
+        <a class="text-body" href="/home/index">PhoneStore.com</a>
+    </div>
+    <!-- Copyright -->
+</footer>
+@section Scripts {
+    <script>
+        async function add(Product_Id) {
+           
+            var usernameEl = document.getElementById("username");
+            if (usernameEl == null) {
+                window.location.href = "Account/Login";
+                //var username=usernameEl.innerText;
+                //  if(username.length<1){
+                //      window.location.href="/Identity/Account/Login";
+                //  }
+            } 
+            try {
+
+                var response = await fetch(`/Cart/AddItem?Product_Id=${Product_Id}`);
+                if (response.status == 200) {
+                   
+                    var result = await response.json();
+                    var cartCountEl = document.getElementById("cartCount");
+                    cartCountEl.innerHTML = result;
+                   
+                }
+            }
+            catch (err) {
+                console.log(err);
+            }
+        }
+    </script>
+}

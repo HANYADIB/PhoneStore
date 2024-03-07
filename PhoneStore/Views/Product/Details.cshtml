@@ -1,0 +1,21 @@
+﻿@model Product
+@{
+    Layout = "_mynavbarlayout";
+}
+<h1 class="text-center m-5 text-danger"> @Model.Name</h1>
+<div class="card mb-3" >
+    <div class="row g-0">
+        <div class="col-md-6 h-100">
+            <img style="border-radius: 10px;" src="/Images/@Model.Image" class="img-fluid rounded-start" alt="...">
+        </div>
+        <div class="col-md-6">
+            <div class="card-body">
+                <h3 class="card-title text-primary">Price &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : @Model.Price Egy</h3>
+                <h3 class="card-text text-primary">Catagory  &nbsp;&nbsp;    : @Model.Categorys.Name</h3>
+                <h3 class="card-text text-primary">Supplier   &nbsp;&nbsp;&nbsp;&nbsp;   : @Model.Suppliers.Name</h3>
+                <h3 class="card-text text-primary"> Description  : @Model.Description</h3>
+            </div>
+        </div>
+    </div>
+</div>
+

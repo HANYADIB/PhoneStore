@@ -1,0 +1,53 @@
+﻿@using PhoneStore.ViewModel
+@model RegisterUserViewmodel
+
+@{
+    Layout = "_test";
+}
+<div class="total">
+    <div class="product">
+        <div class="product-small" >
+            <img src="/Images/10.jpg" onclick="GetAll(this)">
+            <img src="/Images/2.jpg" onclick="GetAll(this)">
+            <img src="/Images/3.jpg" onclick="GetAll(this)">
+            <img src="/Images/4.jpg" onclick="GetAll(this)">
+            <img src="/Images/5.jpg" onclick="GetAll(this)">
+        </div>
+        <div class="container">
+            <img id="hello" src="/Images/8.jpg">
+        </div>
+
+    </div>
+
+
+<div class="product2">
+ <h2>  Name &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:@Model.UserName</h2><br />
+ <h2>  Email &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:@Model.Email</h2><br />
+        <h2> Numbers of Orders : &nbsp;&nbsp;@Model.NumbersofOrders </h2><br />
+<h2> Details of Orders : </h2><br />
+
+@foreach (Order item in ViewBag.ord )
+{
+
+    <span> Id =  @item.Id</span>
+    <span>&nbsp;&nbsp; Date: @item.CreateDate</span>
+   <span>&nbsp;&nbsp; State:@item.OrderStatuses.StatusName</span>
+
+            <br />
+}
+        <a asp-action="changepassword" asp-controller="account"> Change Password </a>
+</div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        function GetAll(smallimg)
+        {
+            var fullpath = document.getElementById("hello");
+            fullpath.src = smallimg.src;
+        }
+    </script>
+}
